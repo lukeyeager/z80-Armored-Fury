@@ -117,23 +117,25 @@ otm4:				;singleplayer message
 ;				Data Declarations									;
 ;=======================================================================================================================;
 
-otm1txt:	.db "   Welcome To   "
-		.db "				"
-		.db "****************"
-		.db "**ARMORED FURY**"
-		.db "****************"
-		.db "				"
-		.db "Created by:	 "
-		.db "	 Luke Yeager"
+otm1txt:
+	.db "   Welcome To   "
+	.db "                "
+	.db "****************"
+	.db "**ARMORED FURY**"
+	.db "****************"
+	.db "                "
+	.db "Created by:     "
+	.db "     Luke Yeager"
 
-otm2txt:	.db "  Upgrade Menu  "
-		.db "				"
-		.db "Buy upgrades for"
-		.db "   your tanks   "
-		.db "				"
-		.db " 2nd - Buy Item "
-		.db " Mode - Info	"
-		.db " Clear - Quit", 0
+otm2txt:
+	.db "  Upgrade Menu  "
+	.db "                "
+	.db "Buy upgrades for"
+	.db "   your tanks   "
+	.db "                "
+	.db " 2nd - Buy Item "
+	.db " Mode - Info    "
+	.db " Clear - Quit", 0
 
 otm3txt1:	.db "Training Mode", 0
 otm3txt2:	.db "Use this mode to hone your", 0

@@ -2,9 +2,12 @@
 
 Armored Fury is a tanks game built for Texas Instruments' z80 platform. This project can be ported to a TI-83 Plus or TI-84 Plus calculator.
 
+System Requirements:
+	Windows XP or later (32-bit or 64-bit).
+	Python 2.6 or 3.0 or later (for conversion to 8xp format)
+
 To compile:
 	Run the "make.bat" script.
-	When the dialog pops up, choose the .obj file that you want to convert into a .8xp file.
 	
 To run:
 	Use an emulator.

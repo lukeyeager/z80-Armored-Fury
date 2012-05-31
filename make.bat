@@ -20,12 +20,12 @@ rem
 rem		make.bat
 
 set prog=ArmoredF
+set outdir=bin
 
-echo Compiling...
-tools\TASM -80 -x -b src\%prog%.asm %prog%.obj %prog%.lst
-echo Converting...
-tools\BinTo8xpEng
-echo Cleaning up...
-del %prog%.obj
-del %prog%.lst
-echo Done.
+echo --- Assembling code ---
+tools\TASM -80 -x -b -c src\%prog%.asm %outdir%\%prog%.bin %outdir%\%prog%.lst
+echo --- Converting output ---
+cd %outdir%
+binpac8x.py %prog%.bin %prog%.8xp
+cd ..
+echo --- Done ---
