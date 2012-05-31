@@ -586,7 +586,7 @@ putMoneySprite:					;puts money sprite at hl (spot in plotSScreen)
 	ld	de, 12
 	ld	b, 7
 putMoneySpriteLoop:
-;	ld	a, (ix)
+	ld	a, (ix)
 	ld	(hl), a
 	inc	ix
 	add	hl, de
@@ -609,7 +609,7 @@ upgradesTxt8:	.db "/", 0
 upgradesTxt9:	.db "Yes", 0
 upgradesTxt10:	.db "No", 0
 
-armorUpgradeSprite:	.db $FE,$82,$92,$BA,$92,$82,$44,$44,$38
+armorUpgradeSprite:		.db $FE,$82,$92,$BA,$92,$82,$44,$44,$38
 scatterUpgradeSprite:	.db $0C,$2C,$40,$46,$96,$A0,$DB,$E3,$C0
 mortarUpgradeSprite:	.db $06,$0E,$04,$10,$00,$20,$00,$60,$60
 pierceUpgradeSprite:	.db $00,$03,$07,$1A,$24,$44,$88,$50,$20
@@ -648,13 +648,13 @@ panzerTxt:	.db "Panzer III", 0
 pantherTxt:	.db "Panther", 0
 tigerTxt:	.db "Tiger", 0
 
-statPanzer:	.db 2
+statPanzer:		.db 2
 statPanther:	.db 0
-statTiger:	.db 0
-statArmor:	.db 0
+statTiger:		.db 0
+statArmor:		.db 0
 statScatters:	.db 0
 statMortars:	.db 0
-statPierce:	.db 0
-money:		.dw 500
-AFflags:	.db 0
+statPierce:		.db 0
+money:			.dw 500
+AFflags:		.db 0
 

@@ -521,10 +521,10 @@ terraindata3:								;two hills
 
 
 teacherButton:
-		ld	  a, 1
-		out	 (3), a
-		ei
-		halt 
+	ld	  a, 1
+	out	 (3), a
+	ei
+	halt 
 	ret
 
 minMenu:					;minimizes the main game menu

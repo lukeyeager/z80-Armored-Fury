@@ -374,8 +374,8 @@ tanksPutPrice:
 
 tankMenuTxt:	.db "TANKS", 0
 tankMenuTxt2:	.db " tank", 0
-boughtTxt:	.db "Bought", 0
-currentTxt:	.db "Current", 0
+boughtTxt:		.db "Bought", 0
+currentTxt:		.db "Current", 0
 tankMsgTxt1:	.db "Tank:", 0
 tankMsgTxt2:	.db "Power:", 0
 tankMsgTxt3:	.db "Scatters:", 0

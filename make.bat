@@ -29,3 +29,6 @@ cd %outdir%
 binpac8x.py %prog%.bin %prog%.8xp
 cd ..
 echo --- Done ---
+
+rem Pause for one second
+ping -n 2 127.0.0.1 >nul
