@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;   mainmenu.asm
@@ -32,14 +32,14 @@ mainMenuStart:
 	ld	de, plotSScreen
 	ld	bc, 64*12
 	LDIR
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 mainMenuLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	sk2nd
 	jr	z, mainMenuEnd
 	cp	skEnter
 	jr	z, mainMenuEnd
-	cp	skUP
+	cp	skUp
 	jr	z, mainMenuMoveUp
 	cp	skDown
 	jr	z, mainMenuMoveDown

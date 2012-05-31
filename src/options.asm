@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;   options.asm
@@ -27,7 +27,7 @@ optionsMenu:
 	call	putOptionsMenu
 
 optionsMenuKeyLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	skDel
 	ret	z
 	cp	skClear
@@ -93,23 +93,23 @@ putOptionsMenu:
 	ld	bc, 19*12
 	LDIR
 	
-	set	TextInverse, (IY + TextFlags)
-	set	textwrite, (IY + sGrFlags)
+	set	textInverse, (IY + textFlags)
+	set	textWrite, (IY + sGrFlags)
 
 	ld	hl, 22*256 + 60
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, optionsMenuTxt1
 	ld	b, 7
 putOptionsMenuLoop:
 	ld	a, (hl)
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	inc	hl
-	ld	a, (penrow)
+	ld	a, (penRow)
 	add	a, 5
-	ld	(penrow), a
+	ld	(penRow), a
 	djnz	putOptionsMenuLoop
 
-	ld	hl, PlotSScreen + 468		;bullet sprites
+	ld	hl, plotSScreen + 468		;bullet sprites
 	ld	de, 96
 	ld	b, 2
 primaryOptionsBulletsLoop:
@@ -119,17 +119,17 @@ primaryOptionsBulletsLoop:
 	call	upgradePutBullet
 
 	ld	hl, 28*256 + 7			;list items
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, optionsMenuTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 36*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, optionsMenuTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 44*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, optionsMenuTxt4
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, plotSScreen + 460		;contrast arrows
 	ld	de, 11
@@ -146,9 +146,9 @@ primaryOptionsBulletsLoop:
 	res	6, (hl)
 	add	hl, de
 
-	res	TextInverse, (IY + TextFlags)
-	res	textwrite, (IY + sGrFlags)
-	b_call(_grBufCpy)
+	res	textInverse, (IY + textFlags)
+	res	textWrite, (IY + sGrFlags)
+	b_call( _GrBufCpy )	
 	ret
 
 optionsMenuMoveUp:

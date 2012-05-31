@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;   multi.asm
@@ -23,11 +23,11 @@
 startMultiplay:
 	call	blackOutScreen
 	ld	hl, 1*256 + 35
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, lobbyTxt
 	set	textInverse, (IY + textFlags)
 	set	textEraseBelow, (IY + textFlags)
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	res	textInverse, (IY + textFlags)
 	res	textEraseBelow, (IY + textFlags)
 	call	pauseLoop

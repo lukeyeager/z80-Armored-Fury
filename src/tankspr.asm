@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;   tankspr.asm
@@ -22,7 +22,7 @@
 
 dropTank:				;takes random # (0-9) in a
 	ld	b, 12			;drops tank onto ground
-	call	iRandom
+	call	irandom
 	add	a, 8
 	ld	(gameX), a		;at start of each round
 	ld	a, 40
@@ -30,7 +30,7 @@ dropTank:				;takes random # (0-9) in a
 dropTankLoop:
 	call	putTankTop
 	call	putTankBase
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	call	clearTank
 	ld	hl, gameY
 	inc	(hl)
@@ -40,7 +40,7 @@ dropTankLoop:
 
 	call	putTankTop
 	call	putTankBase
-	b_call(_grBufCpy)	
+	b_call( _GrBufCpy )		
 	ret
 
 putTankTop:					;takes x and y in (gameX) and (gameY)
@@ -200,7 +200,7 @@ clearTankLoop:
 
 dropEnemy:
 	ld	b, 12
-	call	iRandom
+	call	irandom
 	add	a, 78			;a=x, c=y
 	ld	(tempValue1), a
 	ld	c, 50
@@ -239,33 +239,33 @@ dropEnemyLoop2:
 	inc	ix
 	dec	e
 	jr	nz, dropEnemyLoop2
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 ;=======================================================================================================================;
 ;				Routines										;
 ;=======================================================================================================================;
 
-GetPixel:				;takes x-location in a and y-location in l
-    LD     H, 0				;outputs in hl the place in plotSScreen
-    LD     D, H				;and a is # of times to SRL
-    LD     E, L
-    ADD    HL, HL		;12x
-    ADD    HL, DE
-    ADD    HL, HL
-    ADD    HL, HL
+getPixel:				;takes x-location in a and y-location in l
+	LD	 H, 0				;outputs in hl the place in plotSScreen
+	LD	 D, H				;and a is # of times to SRL
+	LD	 E, L
+	ADD	HL, HL		;12x
+	ADD	HL, DE
+	ADD	HL, HL
+	ADD	HL, HL
 
-    LD     E, A
-    SRL    E			;e/8
-    SRL    E
-    SRL    E
-    ADD    HL, DE
+	LD	 E, A
+	SRL	E			;e/8
+	SRL	E
+	SRL	E
+	ADD	HL, DE
 
-    LD     DE, PlotSScreen
-    ADD    HL, DE
+	LD	 DE, plotSScreen
+	ADD	HL, DE
 
-    AND    7
-    RET
+	AND	7
+	RET
 
 getPixelMask:
 	call	getPixel

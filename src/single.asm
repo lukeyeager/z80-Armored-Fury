@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;		single.asm
@@ -28,7 +28,7 @@ startSingleplay:
 	ld	a, 1
 	ld	(gameType), a
 
-	b_call(_grBufClr)
+	b_call( _GrBufClr )	
 
 	call	initGame
 	call	getEnemyStats
@@ -40,7 +40,7 @@ startSingleplay:
 
 
 	call	putGameMenu
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	pauseLoop
 
 

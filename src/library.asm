@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;   library.asm
@@ -41,7 +41,7 @@ menuPutSprite:				;Adds bullet sprite in front of selected menu item
 	ld	a, (hl)
 	and	b
 	ld	(hl), a
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 menuEraseSprite:			;Deletes bullet sprite in front of previously selected menu item
@@ -65,7 +65,7 @@ menuEraseSprite:			;Deletes bullet sprite in front of previously selected menu i
 	ld	a, (hl)
 	or	b
 	ld	(hl), a
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 menuBulletOn:
@@ -111,14 +111,14 @@ messageBoxLoop3:		;put blank space
 	dec	c
 	jr	nz, messageBoxLoop2
 
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 messageBoxPic: .db $80, $00, $00, $00, $00, $00, $00, $01
 
 
 pauseLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	sk2nd
 	ret	z
 	cp	skEnter
@@ -135,7 +135,7 @@ blackOutScreen:				;
 	ld	a, 255
 	ld	(hl), a
 	LDIR
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 calculateRank:				;gets the rank of your tank and outputs to 'a'
@@ -242,27 +242,27 @@ gameMenuLoop1:
 	cp	2
 	jr	z, putGameMulti
 	ld	hl, 1*256 + 5
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, trainingTxt
 	ld	a, (hl)
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	inc	hl
 	call	trainingTextShift
 	ld	a, (hl)
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	inc	hl
 	call	trainingTextShift
 	call	trainingTextShift
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, plotSScreen + 49
 	res	5, (hl)
 	jr	endPutGameType
 
 putGameSingle:
 	ld	hl, 3*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, singleTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	jr	endPutGameType
 putGameMulti:
 
@@ -270,13 +270,13 @@ endPutGameType:
 	res	textInverse, (IY + textFlags)
 
 	ld	hl, 31				;text
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, inGameMenuTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 12*256 + 8
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, inGameMenuTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	call	putAngle
 	call	putPower
@@ -297,12 +297,12 @@ putGameTypeBox:
 	ret
 
 trainingTextShift:
-	ld	a, (pencol)
+	ld	a, (penCol)
 	dec	a
-	ld	(pencol), a
-	ld	a, (penrow)
+	ld	(penCol), a
+	ld	a, (penRow)
 	inc	a
-	ld	(penrow), a
+	ld	(penRow), a
 	ret
 
 putAngle:						;
@@ -314,10 +314,10 @@ putAngle:						;
 	ld	(penCol), hl
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 6
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ret
 
 putPower:						;
@@ -329,17 +329,17 @@ putPower:						;
 	ld	(penCol), hl
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 6
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ret
 
 putTempBlank:
-	ld	(pencol), hl
+	ld	(penCol), hl
 	push	af
 	ld	a, ' '
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	pop	af
 	ret
 
@@ -383,7 +383,7 @@ putAngleArrows:
 putWeapon:						;
 	ld	a, (gameWeapon)				;outputs current weapon on in-game menu
 	ld	hl, 12*256 + 35				;
-	ld	(pencol), hl
+	ld	(penCol), hl
 	cp	1
 	jr	z, putWeaponScatter
 	cp	2
@@ -398,7 +398,7 @@ putWeaponMortar:
 	ld	hl, inGameMenuTxt6
 putWeaponTxt:
 	set	textWrite, (IY + sGrFlags)
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	res	textWrite, (IY + sGrFlags)
 	ret
 
@@ -414,11 +414,11 @@ putWind:						;
 putWindPos:
 
 	ld	hl, 6*256 + 81
-	ld	(pencol), hl
-	b_call(_setXXOP1)
+	ld	(penCol), hl
+	b_call( _SetXXOP1 )	
 	ld	a, 2
 	set	textWrite, (IY + sGrFlags)
-	b_call(_dispOP1a)
+	b_call( _DispOP1A )	
 	res	textWrite, (IY + sGrFlags)
 	ld	a, (gameWind)
 	cp	0
@@ -450,9 +450,9 @@ inGameMenuSprite1:
  .db $55,$55,$55,$55,$55,$55,$55,$50,$15,$55,$55,$55,$55,$55,$55,$55
  .db $55,$55,$55,$50,$0F,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$FF,$E0
 
-ingameMenuTxt1:	.db "Angle   Power   Wind", 0
+inGameMenuTxt1:	.db "Angle   Power   Wind", 0
 inGameMenuTxt3:	.db "Weapon:", 0
-inGameMenuTxt4:	.db "Shell       ", 0
+inGameMenuTxt4:	.db "Shell	   ", 0
 inGameMenuTxt5:	.db "Scatter", 0
 inGameMenuTxt6:	.db "Mortar   ", 0
 blankTxt:	.db "   ", 0
@@ -463,7 +463,7 @@ singleTxt:	.db "Single", 0
 
 putTerrain:						;
 	ld	b, 3					;puts terrain at bottom of game
-	call	iRandom					;
+	call	irandom					;
 	cp	0
 	jr	z, terrainLevelOne
 	cp	1
@@ -483,10 +483,10 @@ terrainLevelTwo:
 terrainLevelThree:
 	ld	hl, terraindata3
 terrainPlacement:
-	ld	de, PlotSScreen+648
+	ld	de, plotSScreen+648
 	ld	bc, 10*12
 	LDIR
-	b_call(_GrBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 terraindata1:								;bowl
@@ -521,10 +521,10 @@ terraindata3:								;two hills
 
 
 teacherButton:
-        ld      a, 1
-        out     (3), a
-        ei
-        halt 
+		ld	  a, 1
+		out	 (3), a
+		ei
+		halt 
 	ret
 
 minMenu:					;minimizes the main game menu
@@ -565,7 +565,7 @@ minMenuLoop3:
 	ld	(hl), a
 	inc	hl
 	djnz	minMenuLoop3
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ld	hl, tempValue1
 	dec	(hl)
 	jr	nz, minMenuLoop1
@@ -650,23 +650,24 @@ putEnemyHealth:					;puts health bar for enemy
 	ld	a, (enemyHealth)
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXOP2)		;bar length = 12(enemyHealth/maxEnemyHealth)
-	b_call(_op2toOp1)
+	b_call( _SetXXXXOP2 )		;bar length = 12(enemyHealth/maxEnemyHealth)
+	b_call( _OP2ToOP1 )	
 	ld	a, (maxEnemyHealth)
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXOP2)
-	b_call(_fpDiv)
+	b_call( _SetXXXXOP2 )	
+	b_call( _FPDiv )	
 	ld	a, 12
-	b_call(_setXXOP2)
-	b_call(_fpMult)
+	b_call( _SetXXOP2 )	
+	b_call( _FPMult )	
 	call	convertFP
 	ld	hl, 0
 	cp	0
 	jr	z, skipPutEnemyHealth
 	ld	b, a
 putEnemyHealthLoop:
-	SLL	l
+	; TODO
+;	SLL	l
 	RL	h
 	djnz	putEnemyHealthLoop
 	SLA	l
@@ -680,23 +681,23 @@ skipPutEnemyHealth:
 	inc	de
 	ld	a, l
 	ld	(de), a
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 putSelfHealth:					;puts health bar for self
 	ld	a, (gameHealth)
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXOP2)		;bar length = 12(gameHealth/maxHealth)
-	b_call(_op2toOp1)
+	b_call( _SetXXXXOP2 )		;bar length = 12(gameHealth/maxHealth)
+	b_call( _OP2ToOP1 )	
 	ld	a, (maxHealth)
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXOP2)
-	b_call(_fpDiv)
+	b_call( _SetXXXXOP2 )	
+	b_call( _FPDiv )	
 	ld	a, 12
-	b_call(_setXXOP2)
-	b_call(_fpMult)
+	b_call( _SetXXOP2 )	
+	b_call( _FPMult )	
 	call	convertFP
 	ld	hl, 0
 	cp	0
@@ -706,7 +707,7 @@ putSelfHealth:					;puts health bar for self
 putSelfHealthLoop:
 	SRA	h
 	RR	l
-skipPutSelfHealth:
+skipPutSelfHealth:	;???
 	djnz	putSelfHealthLoop
 	res	7, h
 	ld	de, 3
@@ -717,7 +718,7 @@ skipPutSelfHealth:
 	inc	de
 	ld	a, l
 	ld	(de), a
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 

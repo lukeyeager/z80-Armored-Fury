@@ -14,11 +14,12 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;		upgrades.asm
 ;;;
+
 
 upgradeMenu:
 	ld	hl, AFflags
@@ -30,7 +31,7 @@ upgradeMenu:
 restartUpgradeMenu:
 	call	putUpgradeScreen
 upgradeKeyLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	skDel
 	ret	z
 	cp	skClear
@@ -97,92 +98,92 @@ upgradeInfo:
 	ld	ix, armorUpgradeSprite		;armor message box
 	call	upgradePutSprite
 	ld	hl, 18*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, armorInfoTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 25*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, armorInfoTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 32*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, armorInfoTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 40*256 + 48
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, armorInfoTxt4
-	b_call(_vPutS)
-	b_call(_grBufCpy)
+	b_call( _VPutS )	
+	b_call( _GrBufCpy )	
 	jp	upgradeInfoKeyLoop
 
 upgradeScatterInfo:
 	ld	ix, scatterUpgradeSprite	;scatter message box
 	call	upgradePutSprite
 	ld	hl, 18*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, scatterInfoTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 25*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, scatterInfoTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 32*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, scatterInfoTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 40*256 + 48
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, scatterInfoTxt4
-	b_call(_vPutS)
-	b_call(_grBufCpy)
+	b_call( _VPutS )	
+	b_call( _GrBufCpy )	
 	jr	upgradeInfoKeyLoop
 
 upgradeMortarInfo:
 	ld	ix, mortarUpgradeSprite		;mortar message box
 	call	upgradePutSprite
 	ld	hl, 18*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, mortarInfoTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 25*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, mortarInfoTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 32*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, mortarInfoTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 40*256 + 48
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, mortarInfoTxt4
-	b_call(_vPutS)
-	b_call(_grBufCpy)
+	b_call( _VPutS )	
+	b_call( _GrBufCpy )	
 	jr	upgradeInfoKeyLoop
 
 upgradePierceInfo:
 	ld	ix, pierceUpgradeSprite		;pierce message box
 	call	upgradePutSprite
 	ld	hl, 18*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, pierceInfoTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 25*256 + 31
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, pierceInfoTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 32*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, pierceInfoTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 40*256 + 44
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, pierceInfoTxt4
-	b_call(_vPutS)
-	b_call(_grBufCpy)
+	b_call( _VPutS )	
+	b_call( _GrBufCpy )	
 
-UpgradeInfoKeyLoop:
+upgradeInfoKeyLoop:
 	res	textWrite, (IY + sGrFlags)
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	skClear
 	jp	z, restartUpgradeMenu
 	cp	sk2nd
@@ -229,7 +230,7 @@ checkBoughtPierce:
 	jp	z, upgradeKeyLoop
 	ld	e, 100
 endCheckBought:
-	b_call(_cpHlDe)
+	b_call( _CpHLDE )	
 	jp	c, upgradeKeyLoop
 
 	call	putMessageBox
@@ -237,18 +238,18 @@ endCheckBought:
 	ld	hl, 17*256 + 18		;generic text
 	ld	(penCol), hl
 	ld	hl, confirmTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 31*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, confirmTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 40*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, confirmTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, 24*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, (menuCounter)
 	cp	2
 	jr	z, upgradeSelectScatter
@@ -257,38 +258,38 @@ endCheckBought:
 	cp	4
 	jr	z, upgradeSelectPierce
 	ld	hl, selectArmorTxt	;specialized text
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	a, 20
 	jr	upgradeSelectEnd
 upgradeSelectScatter:
 	ld	hl, selectScatterTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	a, 40
 	jr	upgradeSelectEnd
 upgradeSelectMortar:
 	ld	hl, selectMortarTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	a, 60
 	jr	upgradeSelectEnd
 upgradeSelectPierce:
 	ld	hl, selectPierceTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	a, 100
 upgradeSelectEnd:
 
 	ld	hl, 31*256 + 31		;price
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, '?'
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 
 upgradeConfirmKeyLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	sk2nd
 	jr	z, upgradeBuyItem
 	cp	skClear
@@ -340,66 +341,66 @@ endBuyItem:
 putUpgradeScreen:
 
 	call	blackOutScreen
-	ld	hl, PlotSScreen + 180	;
+	ld	hl, plotSScreen + 180	;
 	ld	de, 96			;initial menu bullets
 	ld	b, 5			;
 primaryUpgradeBulletsLoop:
 	res	3, (hl)
 	add	hl, de
 	djnz	primaryUpgradeBulletsLoop
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	call	upgradePutBullet
 
-	set	TextInverse, (IY + TextFlags)
-	set	FracDrawLFont, (IY + FontFlags)
-	set	textwrite, (IY + sGrFlags)
+	set	textInverse, (IY + textFlags)
+	set	fracDrawLFont, (IY + fontFlags)
+	set	textWrite, (IY + sGrFlags)
 
 	ld	hl, 1*256 + 24		;"UPGRADES"
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
-	res	FracDrawLFont, (IY + FontFlags)
+	res	fracDrawLFont, (IY + fontFlags)
 
 	ld	hl, 12*256 + 7		;
-	ld	(pencol), hl		;List Items
+	ld	(penCol), hl		;List Items
 	ld	hl, upgradesTxt2	;
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 20*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 28*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt4
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 36*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt5
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 44*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt6
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	a, (statArmor)		;armor		;
 	ld	hl, 12*256 + 69				;variable stat sprites
-	ld	(pencol), hl				;
+	ld	(penCol), hl				;
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, (statScatters)	;scatters
 	ld	hl, 20*256 + 73
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, (statPanzer)
 	cp	2
 	jr	z, capabilitiesPanzer
@@ -422,34 +423,34 @@ capabilitiesPanther:
 capabilitiesTiger:
 	ld	(tempValue1), a
 	ld	hl, 20*256 + 81
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	h, 0
 	ld	l, b
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)	
+	b_call( _DispOP1A )		
 	ld	a, (statMortars)	;mortars
 	ld	hl, 28*256 + 73
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, (tempValue1)
 	ld	hl, 28*256 + 81
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, (statPierce)		;armor piercing
 	ld	hl, 36*256 + 74
-	ld	(pencol), hl
+	ld	(penCol), hl
 	cp	1
 	jr	z, menuIsPierce
 	ld	hl, upgradesTxt10
@@ -457,61 +458,61 @@ capabilitiesTiger:
 menuIsPierce:
 	ld	hl, upgradesTxt9
 menuNotPierce:
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	call	calculateRank		;ranking
 	ld	hl, 56*256 + 43
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, (rank)
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, (statPanzer)		;tank
 	cp	2
 	jr	z, menuPanzer
 	ld	a, (statPanther)
 	cp	2
 	jr	z, menuPanther
-	ld	hl, TigerTxt
+	ld	hl, tigerTxt
 	jr	menuTiger
 menuPanzer:
-	ld	hl, PanzerTxt
+	ld	hl, panzerTxt
 	jr	menuTiger
 menuPanther:
-	ld	hl, PantherTxt
+	ld	hl, pantherTxt
 menuTiger:
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 
 	ld	hl, 12*256 + 77				;
-	ld	(pencol), hl				;fixed stat sprites
+	ld	(penCol), hl				;fixed stat sprites
 	ld	hl, upgradesTxt7			;
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 20*256 + 77
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt8
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 28*256 + 77
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, upgradesTxt8
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, plotSScreen + 672			;
 	call	putMoneySprite				;money
 	ld	hl, 56*256 + 9				;
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, (money)
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 
-	res	TextInverse, (IY + textFlags)
-	res	textwrite, (iy+sGrflags)
+	res	textInverse, (IY + textFlags)
+	res	textWrite, (iy+sGrFlags)
 
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 upgradePutBullet:
@@ -577,7 +578,7 @@ upgradePutSpriteLoop:
 	add	hl, de
 	inc	ix
 	djnz	upgradePutSpriteLoop
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 putMoneySprite:					;puts money sprite at hl (spot in plotSScreen)
@@ -585,12 +586,12 @@ putMoneySprite:					;puts money sprite at hl (spot in plotSScreen)
 	ld	de, 12
 	ld	b, 7
 putMoneySpriteLoop:
-	ld	a, (ix)
+;	ld	a, (ix)
 	ld	(hl), a
 	inc	ix
 	add	hl, de
 	djnz	putMoneySpriteLoop
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ret
 
 ;=======================================================================================================================;
@@ -612,7 +613,7 @@ armorUpgradeSprite:	.db $FE,$82,$92,$BA,$92,$82,$44,$44,$38
 scatterUpgradeSprite:	.db $0C,$2C,$40,$46,$96,$A0,$DB,$E3,$C0
 mortarUpgradeSprite:	.db $06,$0E,$04,$10,$00,$20,$00,$60,$60
 pierceUpgradeSprite:	.db $00,$03,$07,$1A,$24,$44,$88,$50,$20
-moneyUpgradeSprite	.db $F7,$E1,$D7,$E3,$F5,$C3,$F7
+moneyUpgradeSprite:		.db $F7,$E1,$D7,$E3,$F5,$C3,$F7
 
 armorInfoTxt1:	.db "Increase", 0
 armorInfoTxt2:	.db "your tanks", 0
@@ -643,9 +644,9 @@ selectScatterTxt:	.db "a Scatter shot", 0
 selectMortarTxt:	.db "a Mortar shot", 0
 selectPierceTxt:	.db "Armor Piercing", 0
 
-PanzerTxt:	.db "Panzer III", 0
-PantherTxt:	.db "Panther", 0
-TigerTxt:	.db "Tiger", 0
+panzerTxt:	.db "Panzer III", 0
+pantherTxt:	.db "Panther", 0
+tigerTxt:	.db "Tiger", 0
 
 statPanzer:	.db 2
 statPanther:	.db 0
@@ -656,3 +657,4 @@ statMortars:	.db 0
 statPierce:	.db 0
 money:		.dw 500
 AFflags:	.db 0
+

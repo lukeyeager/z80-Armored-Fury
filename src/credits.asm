@@ -1,12 +1,12 @@
 ;-------------------------------------------------------;
-;     A R M O R E D   F U R Y   f o r   T I - 8 3 +	;
+;	 A R M O R E D   F U R Y   f o r   T I - 8 3 +	;
 ;							;
-;      Programmed by: Luke Yeager and Austin Hogan	;
-;							;
-;							;
+;	  Programmed by: Luke Yeager and Austin Hogan	;
 ;							;
 ;							;
-;		     (Credits Code)			;
+;							;
+;							;
+;			 (Credits Code)			;
 ;-------------------------------------------------------;
 
 credits:
@@ -16,50 +16,50 @@ credits:
 	ld	hl, 0*256 + 20
 	ld	(penCol), hl
 	ld	hl, creditsTxt1		;Programmed by
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 16*256 + 4
 	ld	(penCol), hl
 	ld	hl, creditsTxt3		;and
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 24*256 + 19
 	ld	(penCol), hl
 	ld	hl, creditsTxt5		;Graphical Design
-	b_call(_vPuts)
+	b_call( _VPutS )	
 	ld	hl, 32*256 + 77
 	ld	(penCol), hl
 	ld	hl, creditsTxt3		;and
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 48*256 + 26
 	ld	(penCol), hl
 	ld	hl, creditsTxt8		;Tank Intel
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
-	set	FracDrawLFont, (IY + FontFlags) 
+	set	fracDrawLFont, (IY + fontFlags) 
 	ld	hl, 7*256 + 16
 	ld	(penCol), hl
 	ld	hl, creditsTxt2		;Luke Yeager
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 15*256 + 20
 	ld	(penCol), hl
 	ld	hl, creditsTxt4		;Austin Hogan
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 31*256 + 8
 	ld	(penCol), hl
 	ld	hl, creditsTxt6		;Will Garvin
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 39*256 + 6
 	ld	(penCol), hl
 	ld	hl, creditsTxt7		;Lucas Forsythe
-	b_call(_vPuts)
+	b_call( _VPutS )	
 	ld	hl, 55*256 + 12
 	ld	(penCol), hl
 	ld	hl, creditsTxt9		;Nolon Connor
-	b_call(_vPuts)
-	res	FracDrawLFont, (IY + FontFlags)
+	b_call( _VPutS )	
+	res	fracDrawLFont, (IY + fontFlags)
 	res	textInverse, (IY + textFlags)
 
 creditsLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	sk2nd
 	jp	z, optionsMenu
 	cp	skClear

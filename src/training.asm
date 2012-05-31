@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;		training.asm
@@ -28,7 +28,7 @@ startTraining:
 	ld	a, 0
 	ld	(gameType), a
 
-	b_call(_grBufClr)
+	b_call( _GrBufClr )	
 
 	call	initGame
 	ld	a, 200
@@ -40,15 +40,15 @@ startTraining:
 
 restartTraining:
 	ld	b, 10			;wind is from -5 to 5
-	call	iRandom
+	call	irandom
 	sub	5
 	ld	(gameWind), a
 	call	putGameMenu
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 trainingKeyLoop:
 	ld	hl, tempFlags
 	set	delayFlag, (hl)
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	skDown			;down
 	jp	z, trainingDecPower
 	cp	skLeft			;left
@@ -68,7 +68,7 @@ trainingKeyLoop:
 	cp	skAlpha			;Alpha
 	jp	z, trainingChangeWeapon
 	cp	skDel
-	jr	nz, trainingkeyLoop
+	jr	nz, trainingKeyLoop
 	call	teacherButton
 	jr	trainingKeyLoop
 
@@ -104,7 +104,7 @@ endTrainingIncAngle:
 	call	putAngle
 	res	textWrite, (IY + sGrFlags)
 	call	putAngleArrows
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 trainingIncAngleChange:
 	ld	hl, angleSpr
@@ -113,7 +113,7 @@ trainingIncAngleChange:
 	call	clearTank
 	call	putTankTop
 	call	putTankBase
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	pop	af
 	ret
 
@@ -147,13 +147,13 @@ trainingDecAngle:
 endTrainingDecAngle:
 	set	textWrite, (IY + sGrFlags)
 	ld	hl, 6*256 + 42
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, blankTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	call	putAngle
 	res	textWrite, (IY + sGrFlags)
 	call	putAngleArrows
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 trainingDecAngleChange:
 	ld	hl, angleSpr
@@ -162,7 +162,7 @@ trainingDecAngleChange:
 	call	clearTank
 	call	putTankTop
 	call	putTankBase
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	pop	af
 	ret
 
@@ -202,7 +202,7 @@ endTrainingIncPower:
 	call	putPower
 	res	textWrite, (IY + sGrFlags)
 	call	putPowerArrows
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 
 trainingDecPower:
@@ -225,13 +225,13 @@ trainingDecPower:
 endTrainingDecPower:
 	set	textWrite, (IY + sGrFlags)
 	ld	hl, 6*256 + 67
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, blankTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	call	putPower
 	res	textWrite, (IY + sGrFlags)
 	call	putPowerArrows
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 
 trainingMoveLeft:					;moves tank to the left
@@ -259,7 +259,7 @@ trainingMoveLeftNotBlank:
 endTrainingMoveLeft:
 	call	putTankTop
 	call	putTankBase
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 
 
@@ -288,7 +288,7 @@ trainingMoveRightNotBlank:
 endTrainingMoveRight:
 	call	putTankTop
 	call	putTankBase
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 
 trainingChangeWeapon:
@@ -300,7 +300,7 @@ changeWeaponNotTop:
 	inc	a
 	ld	(gameWeapon), a
 	call	putWeapon
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	jp	trainingKeyLoop
 
 trainingShoot:
@@ -329,13 +329,13 @@ endTraining:
 	bit	selfIsDead, (hl)
 	jp	nz, mainMenuStart
 	ld	hl, 21*256 + 21
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, congratsTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 31*256 + 23
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, endTrainingTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	call	pauseLoop
 	jp	mainMenuStart
 

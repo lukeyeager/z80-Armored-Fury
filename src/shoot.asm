@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;		shoot.asm
@@ -96,7 +96,7 @@ samePixel:
 	or	(hl)
 	ld	(hl), a
 singleDontPut:
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ld	hl, forceY		;update forces
 	dec	(hl)
 	ld	hl, windCounter2
@@ -112,7 +112,7 @@ endSingleShot:
 	cpl
 	and	(HL)
 	ld	(HL), A
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 
 	call	putSingleExplosion
 	call	getDmgEnemySingle
@@ -189,7 +189,7 @@ mortarDontClear:
 	ld	l, e			;end if shot is off screen
 	ld	a, d
 	cp	95
-	jp	nc, endmortarShot
+	jp	nc, endMortarShot
 	call	smallCoord
 	ld	a, e
 	inc	a
@@ -202,7 +202,7 @@ mortarDontClear:
 	inc	a
 	call	getPixelMask		;test pixel
 	and	(hl)
-	jp	nz, endmortarShot
+	jp	nz, endMortarShot
 	call	smallCoord
 	ld	a, d
 	ld	l, e
@@ -248,7 +248,7 @@ mortarPutLoop:
 	ld	(hl), a
 
 mortarDontPut:
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 	ld	hl, forceY		;update forces
 	dec	(hl)
 	ld	hl, windCounter2
@@ -256,7 +256,7 @@ mortarDontPut:
 	call	z, addWindPower
 	jp	mortarShotLoop
 
-endmortarShot:
+endMortarShot:
 	ld	a, (oldY1)
 	ld	l, a
 	ld	a, (oldX1)
@@ -288,7 +288,7 @@ mortarClearFinal:
 	cpl
 	and	(hl)
 	ld	(hl), a
-	b_call(_grBufCpy)
+	b_call( _GrBufCpy )	
 
 	call	putSingleExplosion
 	call	getDmgEnemySingle
@@ -312,34 +312,34 @@ initShoot:					;initializes the force
 	sub	b
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXop2)
-	b_call(_OP2ToOP1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	set	trigDeg, (IY + trigFlags)
-	b_call(_cos)
-	b_call(_OP1toOP3)
+	b_call( _Cos )	
+	b_call( _OP1ToOP3 )	
 	ld	a, (gamePower)
 	call	threeFourthsA
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXop2)
-	b_call(_OP3toOP1)
-	b_call(_fpMult)
+	b_call( _SetXXXXOP2 )
+	b_call( _OP3ToOP1 )	
+	b_call( _FPMult )	
 	call	convertFP
 	ld	(forceX), a		;horizontal force
 	ld	a, (gameAngle)
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXop2)
-	b_call(_OP2ToOP1)
-	b_call(_sin)
-	b_call(_OP1toOP3)
+	b_call( _SetXXXXOP2 )
+	b_call( _OP2ToOP1 )	
+	b_call( _Sin )	
+	b_call( _OP1ToOP3 )	
 	ld	a, (gamePower)
 	call	threeFourthsA
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXop2)
-	b_call(_OP3toOP1)
-	b_call(_fpMult)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP3ToOP1 )	
+	b_call( _FPMult )	
 	call	convertFP
 	ld	(forceY), a		;vertical force
 	ret
@@ -354,7 +354,7 @@ initAng90:
 	
 
 convertFP:					;
-	ld	hl, op1 + 1			;gets a number (0-99) from OP1 into A
+	ld	hl, OP1 + 1			;gets a number (0-99) from OP1 into A
 	ld	a, (hl)				;
 	inc	hl
 	sub	$80
@@ -381,7 +381,7 @@ conv2Num:
 	and	15
 	add	a, b
 endConvFP:
-	ld	hl, op1
+	ld	hl, OP1
 	bit	7, (hl)
 	ret	z
 	neg
@@ -570,15 +570,15 @@ partialHit:			;calculates how much damage
 	ld	b, a		;a partial shot did to the tank
 	ld	a, 13		;takes diff in 'a' and returns dmg in 'a'
 	sub	b
-	b_call(_setXXOP1)
+	b_call( _SetXXOP1 )	
 	ld	a, (gameDmg)
 	ld	h, 0
 	ld	l, a
-	b_call(_setXXXXOP2)
-	b_call(_fpMult)
+	b_call( _SetXXXXOP2 )	
+	b_call( _FPMult )	
 	ld	a, 6
-	b_call(_setXXOP2)
-	b_call(_fpDiv)
+	b_call( _SetXXOP2 )	
+	b_call( _FPDiv )	
 	jp	convertFP
 
 initWind:

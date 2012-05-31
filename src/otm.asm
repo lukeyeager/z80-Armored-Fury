@@ -14,99 +14,99 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;		otm.asm
 ;;;
 
 otm1:				;opening message
-	b_call(_clrLcdFull)
-	b_call(_homeUp)
+	b_call( _ClrLCDFull )	
+	b_call( _HomeUp )	
 	ld	hl, otm1txt
-	b_call(_putS)
+	b_call( _PutS )	
 	ld	hl, AFflags
 	set	openingMsg, (hl)
 	jp	pauseLoop
 
 otm2:				;upgrade menu message
-	b_call(_clrLcdFull)
-	b_call(_homeUp)
+	b_call( _ClrLCDFull )	
+	b_call( _HomeUp )	
 	ld	hl, otm2txt
-	b_call(_putS)
+	b_call( _PutS )	
 	ld	hl, AFflags
 	set	upgradeMsg, (hl)
 	jp	pauseLoop
 
 otm3:				;training message
-	b_call(_clrLcdFull)
+	b_call( _ClrLCDFull )	
 	ld	hl, 26
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 11*256 + 1
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 18*256 + 1
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 25*256 + 1
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt4
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 34*256 + 3
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt5
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 40*256 + 3
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt6
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 46*256 + 3
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt7
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 52*256 + 3
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt8
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 58*256 + 3
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm3txt9
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, AFflags
 	set	trainMsg, (hl)
 	jp	pauseLoop
 
 otm4:				;singleplayer message
-	b_call(_clrLcdFull)
+	b_call( _ClrLCDFull )	
 	ld	hl, 21
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm4txt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 11*256 + 2
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm4txt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 18*256 + 2
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm4txt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 29*256 + 1
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm4txt4
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 37*256 + 2
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm4txt5
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 45*256 + 2
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, otm4txt6
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, AFflags
 	set	singleMsg, (hl)
@@ -118,21 +118,21 @@ otm4:				;singleplayer message
 ;=======================================================================================================================;
 
 otm1txt:	.db "   Welcome To   "
-		.db "                "
+		.db "				"
 		.db "****************"
 		.db "**ARMORED FURY**"
 		.db "****************"
-		.db "                "
-		.db "Created by:     "
-		.db "     Luke Yeager"
+		.db "				"
+		.db "Created by:	 "
+		.db "	 Luke Yeager"
 
 otm2txt:	.db "  Upgrade Menu  "
-		.db "                "
+		.db "				"
 		.db "Buy upgrades for"
 		.db "   your tanks   "
-		.db "                "
+		.db "				"
 		.db " 2nd - Buy Item "
-		.db " Mode - Info    "
+		.db " Mode - Info	"
 		.db " Clear - Quit", 0
 
 otm3txt1:	.db "Training Mode", 0

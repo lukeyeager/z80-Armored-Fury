@@ -14,7 +14,7 @@
 ; GNU General Public License for more details.
 ;
 ; You should have received a copy of the GNU General Public License
-; along with Armored Fury. If not, see <http://www.gnu.org/licenses/>.
+; along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
 ;		tankmenu.asm
@@ -27,7 +27,7 @@ tankMenu:
 restartTankMenu:
 	call	putTankMenu
 tankMenuKeyLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	skDel
 	ret	z
 	cp	skClear
@@ -93,40 +93,40 @@ tankSelectPanther:				;select panther
 	jp	nz, tankMenuNotBuyPanther
 	ld	hl, (money)
 	ld	de, 200
-	b_call(_cpHlDe)
+	b_call( _CpHLDE )	
 	jp	c, tankMenuKeyLoop
 
 	call	putMessageBox		;confirmation message
 	ld	hl, 17*256 + 18
 	ld	(penCol), hl
 	ld	hl, confirmTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 24*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, 'a'
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	ld	a, 23
-	ld	(pencol), a
+	ld	(penCol), a
 	ld	hl, pantherTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, tankMenuTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 31*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, confirmTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 200
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
-	b_call(_dispop1a)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
+	b_call( _DispOP1A )	
 	ld	a, '?'
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	ld	hl, 40*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, confirmTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 tankMenuBuyPantherKeyLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	sk2nd
 	jr	z, tankSelectPantherConfirmed
 	cp	skClear
@@ -155,40 +155,40 @@ tankSelectTiger:				;select tiger
 	jp	nz, tankMenuNotBuyTiger
 	ld	hl, (money)
 	ld	de, 500
-	b_call(_cpHlDe)
+	b_call( _CpHLDE )	
 	jp	c, tankMenuKeyLoop
 
 	call	putMessageBox		;confirmation message
 	ld	hl, 17*256 + 18
 	ld	(penCol), hl
 	ld	hl, confirmTxt1
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 24*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, 'a'
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	ld	a, 23
-	ld	(pencol), a
+	ld	(penCol), a
 	ld	hl, tigerTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, tankMenuTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 31*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, confirmTxt2
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	ld	hl, 500
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
-	b_call(_dispop1a)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
+	b_call( _DispOP1A )	
 	ld	a, '?'
-	b_call(_vPutMap)
+	b_call( _VPutMap )	
 	ld	hl, 40*256 + 18
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, confirmTxt3
-	b_call(_vPutS)
+	b_call( _VPutS )	
 tankMenuBuyTigerKeyLoop:
-	b_call(_getCSC)
+	b_call( _GetCSC )	
 	cp	sk2nd
 	jr	z, tankSelectTigerConfirmed
 	cp	skClear
@@ -229,18 +229,18 @@ tankResetTiger:
 putTankMenu:
 	call	blackOutScreen
 
-	set	TextInverse, (IY + TextFlags)
-	set	FracDrawLFont, (IY + FontFlags)
-	set	textwrite, (IY + sGrFlags)
+	set	textInverse, (IY + textFlags)
+	set	fracDrawLFont, (IY + fontFlags)
+	set	textWrite, (IY + sGrFlags)
 
 	ld	hl, 1*256 + 33			;TANKS
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, tankMenuTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
-	res	FracDrawLFont, (IY + FontFlags)
+	res	fracDrawLFont, (IY + fontFlags)
 
-	ld	hl, PlotSScreen + 276		;bullet sprites
+	ld	hl, plotSScreen + 276		;bullet sprites
 	ld	de, 96
 	ld	b, 3
 primaryTankBulletsLoop:
@@ -250,55 +250,55 @@ primaryTankBulletsLoop:
 	call	upgradePutBullet
 
 	ld	hl, 20*256 + 7			;list items
-	ld	(pencol), hl
-	ld	hl, PanzerTxt
-	b_call(_vPutS)
+	ld	(penCol), hl
+	ld	hl, panzerTxt
+	b_call( _VPutS )	
 	ld	hl, 28*256 + 7
-	ld	(pencol), hl
-	ld	hl, PantherTxt
-	b_call(_vPutS)
+	ld	(penCol), hl
+	ld	hl, pantherTxt
+	b_call( _VPutS )	
 	ld	hl, 36*256 + 7
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, tigerTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, plotSScreen + 672		;money
 	call	putMoneySprite
 	ld	hl, 56*256 + 9
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	hl, (money)
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	call	calculateRank			;ranking
 	ld	hl, 56*256 + 43
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, (rank)
 	ld	h, 0
 	ld	l, a
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	ld	a, (statPanzer)			;tank
 	cp	2
 	jr	z, tankMenuPanzer
 	ld	a, (statPanther)
 	cp	2
 	jr	z, tankMenuPanther
-	ld	hl, TigerTxt
+	ld	hl, tigerTxt
 	jr	tankMenuTiger
 tankMenuPanzer:
-	ld	hl, PanzerTxt
+	ld	hl, panzerTxt
 	jr	tankMenuTiger
 tankMenuPanther:
-	ld	hl, PantherTxt
+	ld	hl, pantherTxt
 tankMenuTiger:
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, 20*256 + 67			;panzer status
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, (statPanzer)
 	cp	2
 	jr	z, statusPanzerCurrent
@@ -307,10 +307,10 @@ tankMenuTiger:
 statusPanzerCurrent:
 	ld	hl, currentTxt
 endStatusPanzer:
-	b_call(_vPutS)
+	b_call( _VPutS )	
 
 	ld	hl, 28*256 + 67			;panther status
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, (statPanther)
 	cp	2
 	jr	z, statusPantherCurrent
@@ -322,15 +322,15 @@ endStatusPanzer:
 	jr	endStatusPanther
 statusPantherCurrent:
 	ld	hl, currentTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	jr	endStatusPanther
 statusPantherBought:
 	ld	hl, boughtTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 endStatusPanther:
 
 	ld	hl, 36*256 + 67			;tiger status
-	ld	(pencol), hl
+	ld	(penCol), hl
 	ld	a, (statTiger)
 	cp	2
 	jr	z, statusTigerCurrent
@@ -342,27 +342,27 @@ endStatusPanther:
 	jr	endStatusTiger
 statusTigerCurrent:
 	ld	hl, currentTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 	jr	endStatusTiger
 statusTigerBought:
 	ld	hl, boughtTxt
-	b_call(_vPutS)
+	b_call( _VPutS )	
 endStatusTiger:
 
-	b_call(_grBufCpy)
-	res	TextInverse, (IY + TextFlags)
-	res	textwrite, (IY + sGrFlags)
+	b_call( _GrBufCpy )	
+	res	textInverse, (IY + textFlags)
+	res	textWrite, (IY + sGrFlags)
 	ret
 
 tanksPutPrice:
-	ld	a, (pencol)
+	ld	a, (penCol)
 	add	a, 6
-	ld	(pencol), a
+	ld	(penCol), a
 	push	de
-	b_call(_setxxxxop2)
-	b_call(_op2toop1)
+	b_call( _SetXXXXOP2 )	
+	b_call( _OP2ToOP1 )	
 	ld	a, 5
-	b_call(_dispop1a)
+	b_call( _DispOP1A )	
 	pop	hl
 	call	putMoneySprite
 	ret
