@@ -22,6 +22,8 @@
 
 .nolist
 
+#define VERSION "0.1.1"
+
 #include "tools/ti83plus.inc"
 #include "tools/mirage.inc"
 menuCounter	.equ	appBackUpScreen		;menus
@@ -38,8 +40,8 @@ tankMortar	.equ	3
 
 tempFlags	.equ	tempValue4 + 1		;game flags (temp)
 delayFlag	.equ	5
-selfIsDead	.equ	6
-enemyIsDead	.equ	7
+aliceIsDead	.equ	6
+bobIsDead	.equ	7
 
 openingMsg	.equ	0			;more game flags (permanent)
 upgradeMsg	.equ	1
@@ -47,61 +49,67 @@ singleMsg	.equ	2
 multiMsg	.equ	3
 trainMsg	.equ	4
 
+aliceTank	.equ	tempFlags + 1		; which tank is being used
+bobTank		.equ	aliceTank + 1
 
-gameTank	.equ	tempFlags + 1		;game
-gameAngle	.equ	gameTank + 1
-angleSpr	.equ	gameAngle + 1
-gamePower	.equ	angleSpr+ 1
-maxHealth	.equ	gamePower + 1
-gameHealth	.equ	maxHealth + 1
-gameWind	.equ	gameHealth + 1
-gameWeapon	.equ	gameWind + 1
-gameScatters	.equ	gameWeapon + 1
-gameMortars	.equ	gameScatters + 1
-gameX		.equ	gameMortars + 1		; location of tank
-gameY		.equ	gameX + 1
-sprBuf		.equ	gameY + 1		;4 bytes
-minMenuBuf	.equ	sprBuf + 4		 ;12 bytes
-enemyX		.equ	minMenuBuf + 12
-enemyY		.equ	enemyX + 1
-speedX		.equ	enemyY + 1	; speed of the shot
-speedY		.equ	speedX + 1	
-shootX		.equ	speedY + 1	; location of the shot
-shootY		.equ	shootX + 2
-oldX1		.equ	shootY + 2	; keep old shot location to clear later
-oldY1		.equ	oldX1 + 1
-oldX2		.equ	oldY1 + 1
-oldY2		.equ	oldX2 + 1
-windCounter1	.equ	oldY2 + 1			; the wind affects the speed of the shot
+gameAngle	.equ	bobTank + 1		; in-game options
+angleSpr	.equ	gameAngle + 1	; which angle is being displayed graphically
+gamePower	.equ	angleSpr + 1
+gameWeapon	.equ	gamePower + 1
+
+gameScatters	.equ	gameWeapon + 1		; in-game quantities
+gameMortars		.equ	gameScatters + 1
+
+aliceMaxHealth	.equ	gameMortars + 1		; health
+bobMaxHealth	.equ	aliceMaxHealth + 1
+aliceHealth		.equ	bobMaxHealth + 1
+bobHealth		.equ	aliceHealth + 1
+
+gameWind		.equ	bobHealth + 1		; wind
+windCounter1	.equ	gameWind + 1
 windCounter2	.equ	windCounter1 + 1
 windIncrement	.equ	windCounter2 + 1
-enemyHealth	.equ	windIncrement + 1		;(50 bytes)
-maxEnemyHealth	.equ	enemyHealth + 1
-gameDmg		.equ	maxEnemyHealth + 1
+
+alicePosX	.equ	windIncrement + 1		; tank locations
+alicePosY	.equ	alicePosX + 1
+bobPosX		.equ	alicePosY + 1
+bobPosY		.equ	bobPosX + 1
+
+shotVelX		.equ	bobPosY + 1	; speed of the shot
+shotVelY		.equ	shotVelX + 1	
+shotPosX		.equ	shotVelY + 1	; location of the shot
+shotPosY		.equ	shotPosX + 2
+shotOld1x		.equ	shotPosY + 2	; keep old shot location to clear later
+shotOld1y		.equ	shotOld1x + 1
+shotOld2x		.equ	shotOld1y + 1
+shotOld2y		.equ	shotOld2x + 1
+
+sprBuf		.equ	shotOld2y + 1	;4 bytes
+minMenuBuf	.equ	sprBuf + 4		 ;12 bytes
+
+gameDmg		.equ	minMenuBuf + 12
 gameType	.equ	gameDmg + 1
 
 .list
 
-	.org		$9d93			;Origin
-	.db		 $BB,$6D			;Compiled AsmPrgm token
-	ret				;Header Byte 1 -- So TIOS wont run
-	.db	1			;Header Byte 2 -- Identifies as MirageOS prog
+	.org	$9d93		;Origin
+	.db		$BB,$6D		;Compiled AsmPrgm token
+	ret					;Header Byte 1 -- So TIOS wont run
+	.db	1				;Header Byte 2 -- Identifies as MirageOS prog
 
 button:					;Program Picture - should be a 15x15 graphic
  .db $54,$CE,$01,$28,$55,$EC,$01,$28,$E5,$28,$B0,$08,$FF,$C0,$38,$30
  .db $20,$08,$7F,$C4,$C3,$B4,$C3,$5A,$C3,$56,$FF,$AA,$7F,$FC
 
-desc:						;Description - zero terminated
-				.db		 "Armored Fury (beta)",0		;Your title, whatever you want
+desc:					;Description - zero terminated
+	.db		 "Armored Fury ", VERSION, 0		;Your title, whatever you want
 
 begin:
 
 	jp	mainMenuStart
 
-
-
-
-;-------------------------------------Includes text from other files-----------------------
+	
+; Include text from other files...
 
 #include "src/mainmenu.asm"
 #include "src/library.asm"

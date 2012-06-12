@@ -20,32 +20,32 @@
 ;   tankspr.asm
 ;;;
 
-dropTank:				;takes random # (0-9) in a
-	ld	b, 12			;drops tank onto ground
-	call	irandom
+dropAlice:				;drops Alice onto ground
+	ld	b, 12			
+	call	irandom		;gets random number
 	add	a, 8
-	ld	(gameX), a		;at start of each round
+	ld	(alicePosX), a		;at start of each round
 	ld	a, 40
-	ld	(gameY), a
-dropTankLoop:
+	ld	(alicePosY), a
+dropAliceLoop:
 	call	putTankTop
 	call	putTankBase
 	b_call( _GrBufCpy )	
 	call	clearTank
-	ld	hl, gameY
+	ld	hl, alicePosY
 	inc	(hl)
 	call	testTankRest
 	cp	0
-	jr	z, dropTankLoop
+	jr	z, dropAliceLoop
 
 	call	putTankTop
 	call	putTankBase
 	b_call( _GrBufCpy )		
 	ret
 
-putTankTop:					;takes x and y in (gameX) and (gameY)
-	ld	a, (gameTank)			;puts the appropriate tank top
-	cp	1				;for both angle and tank type
+putTankTop:					;takes x and y in (alicePosX) and (alicePosY)
+	ld	a, (aliceTank)			;puts the appropriate tank top
+	cp	1						;for both angle and tank type
 	jr	z, putPantherTop
 	cp	2
 	jr	z, putTigerTop
@@ -65,9 +65,9 @@ putPanzerTop:
 	add	hl, de
 	push	hl
 	pop	ix			;now ix is sprite index
-	ld	a, (gameY)
+	ld	a, (alicePosY)
 	ld	l, a
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	call	getPixel
 	ld	d, a
 	ld	e, 4
@@ -92,8 +92,8 @@ putTankTopLoop:
 	ret
 
 
-putTankBase:					;takes x and y in (gameX) and (gameY)
-	ld	a, (gameTank)			;puts the appropriate tank base
+putTankBase:					;takes x and y in (alicePosX) and (alicePosY)
+	ld	a, (aliceTank)			;puts the appropriate tank base
 	cp	1
 	jr	z, putPantherBase
 	cp	2
@@ -106,10 +106,10 @@ putPantherBase:
 putTigerBase:
 	ld	ix, tigerSprBase
 putPanzerBase:
-	ld	a, (gameY)
+	ld	a, (alicePosY)
 	add	a, 4
 	ld	l, a
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	call	getPixel
 	ld	b, a
 	ld	(tempValue4), a		;save for later
@@ -156,10 +156,10 @@ putPanzerBase:
 
 	ret
 
-clearTank:				;takes x and y in (gameX) and (gameY)
-	ld	a, (gameY)
+clearTank:				;takes x and y in (alicePosX) and (alicePosY)
+	ld	a, (alicePosY)
 	ld	l, a
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	call	getPixel
 	ld	b, a
 	ld	c, $FE
@@ -213,11 +213,11 @@ dropEnemyLoop:
 	jr	z, dropEnemyLoop
 	ld	a, c
 	sub	5
-	ld	(enemyY), a
+	ld	(bobPosY), a
 	ld	l, a
 	ld	a, (tempValue1)
 	sub	2
-	ld	(enemyX), a
+	ld	(bobPosX), a
 	call	getPixel
 	ld	ix, targetSpr
 	ld	d, a
@@ -286,10 +286,10 @@ testPixel:				;returns 0 or 1 in A
 
 
 testTankRest:				;tests to see if tank
-	ld	a, (gameY)		;is at bottom of terrain
+	ld	a, (alicePosY)		;is at bottom of terrain
 	add	a, 6
 	ld	l, a
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	add	a, 2
 	call	testPixel
 	ret

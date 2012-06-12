@@ -32,10 +32,10 @@ startTraining:
 
 	call	initGame
 	ld	a, 200
-	ld	(maxEnemyHealth), a
-	ld	(enemyHealth), a
+	ld	(bobMaxHealth), a
+	ld	(bobHealth), a
 	call	putTerrain
-	call	dropTank
+	call	dropAlice
 	call	dropEnemy
 
 restartTraining:
@@ -167,7 +167,7 @@ trainingDecAngleChange:
 	ret
 
 trainingIncPower:
-	ld	a, (gameTank)
+	ld	a, (aliceTank)
 	ld	b, a
 	add	a, a	;10x
 	add	a, a
@@ -235,26 +235,26 @@ endTrainingDecPower:
 	jp	trainingKeyLoop
 
 trainingMoveLeft:					;moves tank to the left
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	cp	0
 	jp	z, trainingKeyLoop
 	call	clearTank
-	ld	hl, gameX
+	ld	hl, alicePosX
 	dec	(hl)
 	call	testTankRest
 	cp	0
 	jr	z, trainingMoveLeftNotBlank
 
-	ld	hl, gameY
+	ld	hl, alicePosY
 	dec	(hl)
 	call	testTankRest
 	cp	1
 	jr	z, endTrainingMoveLeft
-	ld	hl, gameY
+	ld	hl, alicePosY
 	inc	(hl)
 	jr	endTrainingMoveLeft
 trainingMoveLeftNotBlank:
-	ld	hl, gameY
+	ld	hl, alicePosY
 	inc	(hl)
 endTrainingMoveLeft:
 	call	putTankTop
@@ -264,26 +264,26 @@ endTrainingMoveLeft:
 
 
 trainingMoveRight:					;moves tank to the right
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	cp	40
 	jp	z, trainingKeyLoop
 	call	clearTank
-	ld	hl, gameX
+	ld	hl, alicePosX
 	inc	(hl)
 	call	testTankRest
 	cp	0
 	jr	z, trainingMoveRightNotBlank
 
-	ld	hl, gameY
+	ld	hl, alicePosY
 	dec	(hl)
 	call	testTankRest
 	cp	1
 	jr	z, endTrainingMoveRight
-	ld	hl, gameY
+	ld	hl, alicePosY
 	inc	(hl)
 	jr	endTrainingMoveRight
 trainingMoveRightNotBlank:
-	ld	hl, gameY
+	ld	hl, alicePosY
 	inc	(hl)
 endTrainingMoveRight:
 	call	putTankTop
@@ -315,9 +315,9 @@ trainingShoot:
 	cp	2
 	call	z, (shootMortar)
 	ld	hl, tempFlags
-	bit	selfIsDead, (hl)
+	bit	aliceIsDead, (hl)
 	jr	nz, endTraining
-	bit	enemyIsDead, (hl)
+	bit	bobIsDead, (hl)
 	jr	nz, endTraining
 	call	putSelfHealth
 	call	putEnemyHealth
@@ -326,7 +326,7 @@ trainingShoot:
 endTraining:
 	call	putMessageBox
 	ld	hl, tempFlags
-	bit	selfIsDead, (hl)
+	bit	aliceIsDead, (hl)
 	jp	nz, mainMenuStart
 	ld	hl, 21*256 + 21
 	ld	(penCol), hl

@@ -27,28 +27,28 @@ shootSingle:						 ;
 	call	initWind
 
 	ld	a, 1
-	ld	(oldX1), a
-	ld	(oldY1), a
-	ld	(oldX2), a
-	ld	(oldY2), a
+	ld	(shotOld1x), a
+	ld	(shotOld1y), a
+	ld	(shotOld2x), a
+	ld	(shotOld2y), a
 
 singleShotLoop:					;main loop for Single shot
 
-	ld	a, (speedX)
-	ld	hl, (shootX)
+	ld	a, (shotVelX)
+	ld	hl, (shotPosX)
 	call	addForce
-	ld	(shootX), hl
-	ld	a, (speedY)
-	ld	hl, (shootY)
+	ld	(shotPosX), hl
+	ld	a, (shotVelY)
+	ld	hl, (shotPosY)
 	call	addForce
-	ld	(shootY), hl
-	ld	a, (oldY2)		;clear old pixel
+	ld	(shotPosY), hl
+	ld	a, (shotOld2y)		;clear old pixel
 	cp	5
 	jr	c, singleDontClear
 	cp	64
 	jr	nc, singleDontClear
 	ld	l, a
-	ld	a, (oldX2)
+	ld	a, (shotOld2x)
 	call	getPixelMask
 	cpl
 	and	(HL)
@@ -60,14 +60,14 @@ singleDontClear:
 	cp	96
 	jp	nc, endSingleShot
 	call	smallCoord		;end if next pixel is on
-	ld	a, (oldY1)	;check to see if is same pixel or off the top (no test)
+	ld	a, (shotOld1y)	;check to see if is same pixel or off the top (no test)
 	cp	15
 	jr	c, samePixel
 	cp	64
 	jr	nc, samePixel
 	cp	e
 	jr	nz, notSamePixel
-	ld	a, (oldX1)
+	ld	a, (shotOld1x)
 	cp	d
 	jr	z, samePixel
 notSamePixel:
@@ -77,15 +77,15 @@ notSamePixel:
 	and	(hl)
 	jp	nz, endSingleShot
 samePixel:
-	ld	a, (oldX1)		;save new pixel
-	ld	(oldX2), a
-	ld	a, (oldY1)
-	ld	(oldY2), a
+	ld	a, (shotOld1x)		;save new pixel
+	ld	(shotOld2x), a
+	ld	a, (shotOld1y)
+	ld	(shotOld2y), a
 	call	smallCoord
 	ld	a, d
-	ld	(oldX1), a
+	ld	(shotOld1x), a
 	ld	a, e
-	ld	(oldY1), a
+	ld	(shotOld1y), a
 	cp	5			;put new pixel
 	jr	c, singleDontPut
 	cp	64
@@ -97,7 +97,7 @@ samePixel:
 	ld	(hl), a
 singleDontPut:
 	b_call( _GrBufCpy )	
-	ld	hl, speedY		;update forces
+	ld	hl, shotVelY		;update forces
 	dec	(hl)
 	ld	hl, windCounter2
 	dec	(hl)
@@ -105,9 +105,9 @@ singleDontPut:
 	jp	singleShotLoop
 
 endSingleShot:
-	ld	a, (oldY1)
+	ld	a, (shotOld1y)
 	ld	l, a
-	ld	a, (oldX1)
+	ld	a, (shotOld1x)
 	call	getPixelMask
 	cpl
 	and	(HL)
@@ -135,26 +135,26 @@ shootMortar:
 	call	initWind
 
 	ld	a, 1
-	ld	(oldX1), a
-	ld	(oldY1), a
+	ld	(shotOld1x), a
+	ld	(shotOld1y), a
 
 mortarShotLoop:
 
-	ld	a, (speedX)
-	ld	hl, (shootX)
+	ld	a, (shotVelX)
+	ld	hl, (shotPosX)
 	call	addForce
-	ld	(shootX), hl
-	ld	a, (speedY)
-	ld	hl, (shootY)
+	ld	(shotPosX), hl
+	ld	a, (shotVelY)
+	ld	hl, (shotPosY)
 	call	addForce
-	ld	(shootY), hl
-	ld	a, (oldY1)		;clear old shot
+	ld	(shotPosY), hl
+	ld	a, (shotOld1y)		;clear old shot
 	cp	5
 	jr	c, mortarDontClear
 	cp	64
 	jr	nc, mortarDontClear
 	ld	l, a
-	ld	a, (oldX1)
+	ld	a, (shotOld1x)
 	call	getPixel
 	ld	de, $C000		; Load sprite (2 pixels) into DE
 	ld	b, a
@@ -214,9 +214,9 @@ mortarDontClear:
 mortarDontTest:
 	call	smallCoord		;save old pixel
 	ld	a, d
-	ld	(oldX1), a
+	ld	(shotOld1x), a
 	ld	a, e
-	ld	(oldY1), a
+	ld	(shotOld1y), a
 	cp	5			;put new shot
 	jr	c, mortarDontPut
 	cp	64
@@ -251,7 +251,7 @@ mortarPutLoop:			; shift sprite
 
 mortarDontPut:
 	b_call( _GrBufCpy )	
-	ld	hl, speedY		;update forces
+	ld	hl, shotVelY		;update forces
 	dec	(hl)
 	ld	hl, windCounter2
 	dec	(hl)
@@ -259,9 +259,9 @@ mortarDontPut:
 	jp	mortarShotLoop
 
 endMortarShot:
-	ld	a, (oldY1)
+	ld	a, (shotOld1y)
 	ld	l, a
-	ld	a, (oldX1)
+	ld	a, (shotOld1x)
 	call	getPixel
 	ld	de, $C000
 	ld	b, a
@@ -327,7 +327,7 @@ initShoot:					;initializes the force
 	b_call( _OP3ToOP1 )	
 	b_call( _FPMult )	
 	call	convertFP
-	ld	(speedX), a		;horizontal force
+	ld	(shotVelX), a		;horizontal force
 	ld	a, (gameAngle)
 	ld	h, 0
 	ld	l, a
@@ -343,15 +343,15 @@ initShoot:					;initializes the force
 	b_call( _OP3ToOP1 )	
 	b_call( _FPMult )	
 	call	convertFP
-	ld	(speedY), a		;vertical force
+	ld	(shotVelY), a		;vertical force
 	ret
 
 initAng90:
 	ld	a, (gamePower)
 	call	threeFourthsA
-	ld	(speedY), a
+	ld	(shotVelY), a
 	ld	a, 0
-	ld	(speedX), a
+	ld	(shotVelX), a
 	ret
 	
 
@@ -397,17 +397,17 @@ convGet1st4:
 	ret
 
 
-bigCoord:					; enlarges gameX and
-	ld	a, (gameX)			; gameY into shootX
-	add	a, 2				; and shootY
+bigCoord:					; enlarges alicePosX and
+	ld	a, (alicePosX)			; alicePosY into shotPosX
+	add	a, 2				; and shotPosY
 	call	multBigCoord
-	ld	(shootX), hl
-	ld	a, (gameY)
+	ld	(shotPosX), hl
+	ld	a, (alicePosY)
 	ld	b, a
 	ld	a, 64
 	sub	b
 	call	multBigCoord
-	ld	(shootY), hl
+	ld	(shotPosY), hl
 	ret
 
 multBigCoord:
@@ -420,11 +420,11 @@ multBigCoord:
 	add	hl, hl
 	ret
 
-smallCoord:					; gets shootX and shootY
-	ld	hl, (shootX)		; back to pixel form and
+smallCoord:					; gets shotPosX and shotPosY
+	ld	hl, (shotPosX)		; back to pixel form and
 	call	divSmallCoord	; outputs to DE
 	ld	c, a
-	ld	hl, (shootY)
+	ld	hl, (shotPosY)
 	ex	de, hl
 	ld	hl, 32*64
 	SCF
@@ -473,9 +473,9 @@ addWindPower:
 	ld	a, (windCounter1)
 	ld	(windCounter2), a
 	ld	a, (windIncrement)
-	ld	hl, speedX
+	ld	hl, shotVelX
 	add	a, (hl)
-	ld	(speedX), a
+	ld	(shotVelX), a
 	ret
 
 putSingleExplosion:
@@ -483,7 +483,7 @@ putSingleExplosion:
 
 
 calcDamage:
-	ld	a, (gameTank)
+	ld	a, (aliceTank)
 	add	a, 3
 	ld	hl, statPierce
 	bit	0, (hl)
@@ -502,7 +502,7 @@ calcDamageNotPierce:
 getDmgEnemySingle:				;calculates damage for a hit on the enemy with a single shot
 	
 	call	smallCoord
-	ld	a, (enemyX)
+	ld	a, (bobPosX)
 	call	dmgCalcDiff
 
 	cp	13
@@ -517,21 +517,21 @@ enemySingleDirectHit:
 
 endDmgEnemySingle:
 	ld	hl, tempFlags
-	res	enemyIsDead, (hl)
+	res	bobIsDead, (hl)
 	ld	b, a
-	ld	a, (enemyHealth)
+	ld	a, (bobHealth)
 	sub	b
-	ld	(enemyHealth), a
+	ld	(bobHealth), a
 	jr	z, endDmgEnemySingleScrewed
 	ret	nc
 endDmgEnemySingleScrewed:
-	set	enemyIsDead, (hl)
+	set	bobIsDead, (hl)
 	ret
 
 getDmgSelfSingle:				;calculates damage for a hit on yourself with a single shot
 
 	call	smallCoord
-	ld	a, (gameX)
+	ld	a, (alicePosX)
 	call	dmgCalcDiff
 
 	cp	13
@@ -546,15 +546,15 @@ selfSingleDirectHit:
 
 endDmgSelfSingle:
 	ld	hl, tempFlags
-	res	selfIsDead, (hl)
+	res	aliceIsDead, (hl)
 	ld	b, a
-	ld	a, (gameHealth)
+	ld	a, (aliceHealth)
 	sub	b
-	ld	(gameHealth), a
+	ld	(aliceHealth), a
 	jr	z, endDmgSelfSingleScrewed
 	ret	nc
 endDmgSelfSingleScrewed:
-	set	selfIsDead, (hl)
+	set	aliceIsDead, (hl)
 	ret
 
 

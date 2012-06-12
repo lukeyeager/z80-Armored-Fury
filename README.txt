@@ -12,3 +12,10 @@ To compile:
 To run:
 	Use an emulator.
 	Or, use TI's TiConnect software to port the program to your device.
+	
+
+Release Date/Version		Description
+-------------------------------------------------------------------------------
+06/12/2012 Version 0.1.1	Added this documentation and version numbering. 
+							Improved label names throughout program for
+							legibility, as well as adding comments.

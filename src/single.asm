@@ -33,7 +33,7 @@ startSingleplay:
 	call	initGame
 	call	getEnemyStats
 	call	putTerrain
-	call	dropTank
+	call	dropAlice
 	call	dropEnemy
 
 
@@ -51,8 +51,8 @@ startSingleplay:
 
 getEnemyStats:
 	ld	a, 100
-	ld	(enemyHealth), a
-	ld	(maxEnemyHealth), a
+	ld	(bobHealth), a
+	ld	(bobMaxHealth), a
 	ret
 
 

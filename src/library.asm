@@ -452,7 +452,7 @@ inGameMenuSprite1:
 
 inGameMenuTxt1:	.db "Angle   Power   Wind", 0
 inGameMenuTxt3:	.db "Weapon:", 0
-inGameMenuTxt4:	.db "Shell	   ", 0
+inGameMenuTxt4:	.db "Shell       ", 0
 inGameMenuTxt5:	.db "Scatter", 0
 inGameMenuTxt6:	.db "Mortar   ", 0
 blankTxt:	.db "   ", 0
@@ -617,7 +617,7 @@ trainingTankIsPanzer:
 trainingTankIsPanther:
 	ld	a, 1
 trainingTankIsTiger:
-	ld	(gameTank), a		;tank
+	ld	(aliceTank), a		;tank
 
 	ld	a, 50
 	ld	(gamePower), a		;power
@@ -631,7 +631,7 @@ trainingTankIsTiger:
 
 
 initPlayerHealth:				;initializes player's health
-	ld	a, (gameTank)
+	ld	a, (aliceTank)
 	add	a, a			;maximum health = 10(2(tank) + 5 + armor)
 	add	a, 5
 	ld	b, a
@@ -642,17 +642,17 @@ initPlayerHealth:				;initializes player's health
 	add	a, a
 	add	a, b
 	add	a, a
-	ld	(maxHealth), a
-	ld	(gameHealth), a
+	ld	(aliceMaxHealth), a
+	ld	(aliceHealth), a
 	ret
 
 putEnemyHealth:					;puts health bar for enemy
-	ld	a, (enemyHealth)
+	ld	a, (bobHealth)
 	ld	h, 0
 	ld	l, a
-	b_call( _SetXXXXOP2 )		;bar length = 12(enemyHealth/maxEnemyHealth)
+	b_call( _SetXXXXOP2 )		;bar length = 12(bobHealth/bobMaxHealth)
 	b_call( _OP2ToOP1 )	
-	ld	a, (maxEnemyHealth)
+	ld	a, (bobMaxHealth)
 	ld	h, 0
 	ld	l, a
 	b_call( _SetXXXXOP2 )	
@@ -685,12 +685,12 @@ skipPutEnemyHealth:
 	ret
 
 putSelfHealth:					;puts health bar for self
-	ld	a, (gameHealth)
+	ld	a, (aliceHealth)
 	ld	h, 0
 	ld	l, a
-	b_call( _SetXXXXOP2 )		;bar length = 12(gameHealth/maxHealth)
+	b_call( _SetXXXXOP2 )		;bar length = 12(aliceHealth/aliceMaxHealth)
 	b_call( _OP2ToOP1 )	
-	ld	a, (maxHealth)
+	ld	a, (aliceMaxHealth)
 	ld	h, 0
 	ld	l, a
 	b_call( _SetXXXXOP2 )	
