@@ -34,11 +34,11 @@ shootSingle:						 ;
 
 singleShotLoop:					;main loop for Single shot
 
-	ld	a, (forceX)
+	ld	a, (speedX)
 	ld	hl, (shootX)
 	call	addForce
 	ld	(shootX), hl
-	ld	a, (forceY)
+	ld	a, (speedY)
 	ld	hl, (shootY)
 	call	addForce
 	ld	(shootY), hl
@@ -97,7 +97,7 @@ samePixel:
 	ld	(hl), a
 singleDontPut:
 	b_call( _GrBufCpy )	
-	ld	hl, forceY		;update forces
+	ld	hl, speedY		;update forces
 	dec	(hl)
 	ld	hl, windCounter2
 	dec	(hl)
@@ -121,13 +121,12 @@ endSingleShot:
 	ret
 
 
-
 shootScatter:
 	call	initShoot
 	
-
 	ret
 
+	
 shootMortar:
 	call	initShoot
 	call	bigCoord
@@ -141,11 +140,11 @@ shootMortar:
 
 mortarShotLoop:
 
-	ld	a, (forceX)
+	ld	a, (speedX)
 	ld	hl, (shootX)
 	call	addForce
 	ld	(shootX), hl
-	ld	a, (forceY)
+	ld	a, (speedY)
 	ld	hl, (shootY)
 	call	addForce
 	ld	(shootY), hl
@@ -157,23 +156,24 @@ mortarShotLoop:
 	ld	l, a
 	ld	a, (oldX1)
 	call	getPixel
-	ld	de, $C000
+	ld	de, $C000		; Load sprite (2 pixels) into DE
 	ld	b, a
-mortarClearLoop:
+mortarClearLoop:		; shift sprite
 	srl	d
 	rr	e
 	djnz	mortarClearLoop
 
 	ld	a, d
 	cpl
-	and	(HL)
+	and (HL)
 	ld	(HL), A
 	inc	hl
 	ld	a, e
 	cpl
 	and	(hl)
-	ld	(hl), a
-	ld	bc, 11
+	ld	(hl), a		; Write sprite
+	
+	ld	bc, 11		; Move down to the next row
 	add	hl, bc
 	ld	a, d
 	cpl
@@ -183,7 +183,8 @@ mortarClearLoop:
 	ld	a, e
 	cpl
 	and	(hl)
-	ld	(hl), a
+	ld	(hl), a		; Write sprite
+	
 mortarDontClear:
 	call	smallCoord
 	ld	l, e			;end if shot is off screen
@@ -223,9 +224,9 @@ mortarDontTest:
 	ld	a, d
 	ld	l, e
 	call	getPixel
-	ld	de, $C000
+	ld	de, $C000		; Load sprite (2 pixels) into DE
 	ld	b, a
-mortarPutLoop:
+mortarPutLoop:			; shift sprite
 	srl	d
 	rr	e
 	djnz	mortarPutLoop
@@ -236,8 +237,9 @@ mortarPutLoop:
 	inc	hl
 	ld	a, e
 	or	(hl)
-	ld	(hl), a
-	ld	bc, 11
+	ld	(hl), a		; write sprite
+	
+	ld	bc, 11		; move down to the next row
 	add	hl, bc
 	ld	a, d
 	or	(HL)
@@ -245,11 +247,11 @@ mortarPutLoop:
 	inc	hl
 	ld	a, e
 	or	(hl)
-	ld	(hl), a
+	ld	(hl), a		; write sprite
 
 mortarDontPut:
 	b_call( _GrBufCpy )	
-	ld	hl, forceY		;update forces
+	ld	hl, speedY		;update forces
 	dec	(hl)
 	ld	hl, windCounter2
 	dec	(hl)
@@ -325,7 +327,7 @@ initShoot:					;initializes the force
 	b_call( _OP3ToOP1 )	
 	b_call( _FPMult )	
 	call	convertFP
-	ld	(forceX), a		;horizontal force
+	ld	(speedX), a		;horizontal force
 	ld	a, (gameAngle)
 	ld	h, 0
 	ld	l, a
@@ -341,15 +343,15 @@ initShoot:					;initializes the force
 	b_call( _OP3ToOP1 )	
 	b_call( _FPMult )	
 	call	convertFP
-	ld	(forceY), a		;vertical force
+	ld	(speedY), a		;vertical force
 	ret
 
 initAng90:
 	ld	a, (gamePower)
 	call	threeFourthsA
-	ld	(forceY), a
+	ld	(speedY), a
 	ld	a, 0
-	ld	(forceX), a
+	ld	(speedX), a
 	ret
 	
 
@@ -395,7 +397,7 @@ convGet1st4:
 	ret
 
 
-bigCoord:					;enlarges gameX and
+bigCoord:					; enlarges gameX and
 	ld	a, (gameX)			; gameY into shootX
 	add	a, 2				; and shootY
 	call	multBigCoord
@@ -418,9 +420,9 @@ multBigCoord:
 	add	hl, hl
 	ret
 
-smallCoord:					;gets shootX and shootY
-	ld	hl, (shootX)			; back to pixel form and
-	call	divSmallCoord			; outputs to DE
+smallCoord:					; gets shootX and shootY
+	ld	hl, (shootX)		; back to pixel form and
+	call	divSmallCoord	; outputs to DE
 	ld	c, a
 	ld	hl, (shootY)
 	ex	de, hl
@@ -445,7 +447,7 @@ divSmallCoordLoop:
 	ret	nc			;rounding
 	inc	a
 	ret
-
+	
 
 addForce:
 	ld	d, 0
@@ -471,9 +473,9 @@ addWindPower:
 	ld	a, (windCounter1)
 	ld	(windCounter2), a
 	ld	a, (windIncrement)
-	ld	hl, forceX
+	ld	hl, speedX
 	add	a, (hl)
-	ld	(forceX), a
+	ld	(speedX), a
 	ret
 
 putSingleExplosion:

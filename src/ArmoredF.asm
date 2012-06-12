@@ -17,7 +17,7 @@
 ;	along with Armored Fury. If not, see <http://www.gnuorg/licenses/>.
 ;
 ;
-;		ARMOREDF.z80
+;		ArmoredF.asm
 ;;;
 
 .nolist
@@ -58,21 +58,21 @@ gameWind	.equ	gameHealth + 1
 gameWeapon	.equ	gameWind + 1
 gameScatters	.equ	gameWeapon + 1
 gameMortars	.equ	gameScatters + 1
-gameX		.equ	gameMortars + 1
+gameX		.equ	gameMortars + 1		; location of tank
 gameY		.equ	gameX + 1
-sprBuf		.equ	gameY + 1	;4 bytes
-minMenuBuf	.equ	sprBuf + 4	;12 bytes
+sprBuf		.equ	gameY + 1		;4 bytes
+minMenuBuf	.equ	sprBuf + 4		 ;12 bytes
 enemyX		.equ	minMenuBuf + 12
 enemyY		.equ	enemyX + 1
-forceX		.equ	enemyY + 1
-forceY		.equ	forceX + 1
-shootX		.equ	forceY + 1
+speedX		.equ	enemyY + 1	; speed of the shot
+speedY		.equ	speedX + 1	
+shootX		.equ	speedY + 1	; location of the shot
 shootY		.equ	shootX + 2
-oldX1		.equ	shootY + 2
+oldX1		.equ	shootY + 2	; keep old shot location to clear later
 oldY1		.equ	oldX1 + 1
 oldX2		.equ	oldY1 + 1
 oldY2		.equ	oldX2 + 1
-windCounter1	.equ	oldY2 + 1
+windCounter1	.equ	oldY2 + 1			; the wind affects the speed of the shot
 windCounter2	.equ	windCounter1 + 1
 windIncrement	.equ	windCounter2 + 1
 enemyHealth	.equ	windIncrement + 1		;(50 bytes)
@@ -95,6 +95,7 @@ desc:						;Description - zero terminated
 				.db		 "Armored Fury (beta)",0		;Your title, whatever you want
 
 begin:
+
 	jp	mainMenuStart
 
 

@@ -22,13 +22,33 @@ rem		make.bat
 set prog=ArmoredF
 set outdir=bin
 
-echo --- Assembling code ---
+echo *
+echo *    Assembling code...
+echo *
 tools\TASM -80 -x -b -c src\%prog%.asm %outdir%\%prog%.bin %outdir%\%prog%.lst
-echo --- Converting output ---
+if ERRORLEVEL 1 goto Err
+
+echo *
+echo *    Converting output...
+echo *
 cd %outdir%
 binpac8x.py %prog%.bin %prog%.8xp
 cd ..
-echo --- Done ---
+if ERRORLEVEL 1 goto Err
+goto NoErr
 
+:Err
+echo *
+echo *    An error has occured
+echo *
+goto End
+
+:NoErr
+echo *
+echo *    Done
+echo *
+goto End
+
+:End
 rem Pause for one second
 ping -n 2 127.0.0.1 >nul
